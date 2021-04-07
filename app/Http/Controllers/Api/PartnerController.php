@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PartnerResource;
+use App\Http\Resources\PartnerWithOrdersResource;
 use App\Models\Partner;
 use Illuminate\Http\Request;
 
@@ -11,11 +13,13 @@ class PartnerController extends Controller
     /**
      * @param Request $request
      *
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(Request $request)
     {
-        return Partner::with('products')->paginate($request->input('per_page'));
+        return PartnerResource::collection(
+            Partner::paginate($request->input('per_page'))
+        );
     }
 
     /**
@@ -24,18 +28,20 @@ class PartnerController extends Controller
      */
     public function duplicated()
     {
-        return Partner::selectRaw('name, country, COUNT(*) as duplicated')
-            ->groupBy(['name', 'country'])
-            ->having('duplicated', '>', 1)
-            ->get();
+        return Partner::duplicatedNameAndCountry()->get();
     }
 
     /**
      * @param Partner $partner
-     * @return Partner
+     * @return PartnerWithOrdersResource
      */
-    public function orders(Partner $partner): Partner
+    public function orders(Partner $partner): PartnerWithOrdersResource
     {
-        return $partner->loadMissing('orders.product');
+        return new PartnerWithOrdersResource($partner);
+    }
+
+    public function sumOrders()
+    {
+        return Partner::sumOrders()->get();
     }
 }

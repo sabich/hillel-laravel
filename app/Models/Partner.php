@@ -17,8 +17,11 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
  * @property string $address
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
+ * @property-read int|null $orders_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Product[] $products
  * @property-read int|null $products_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Partner duplicatedNameAndCountry()
  * @method static \Illuminate\Database\Eloquent\Builder|Partner newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Partner newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Partner query()
@@ -55,5 +58,18 @@ class Partner extends Model
     public function orders(): HasManyThrough
     {
         return $this->hasManyThrough(Order::class, Product::class);
+    }
+
+    public function scopeDuplicatedNameAndCountry($query)
+    {
+        return $query->selectRaw('name, country, COUNT(*) as duplicated')
+            ->groupBy(['name', 'country'])
+            ->having('duplicated', '>', 1);
+    }
+
+    public static function sumOrders()
+    {
+        return static::withSum('orders', 'sum')
+            ->orderByDesc('orders_sum_sum');
     }
 }

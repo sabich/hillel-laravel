@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\InvoiceResource;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 
@@ -11,20 +12,20 @@ class InvoiceController extends Controller
     /**
      * @param Request $request
      *
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(Request $request)
     {
-        return Invoice::paginate($request->input('per_page'));
+        return InvoiceResource::collection(
+            Invoice::paginate($request->input('per_page'))
+        );
     }
 
     /**
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function paid()
     {
-        return Invoice::with('order.product')
-            ->where('paid', true)
-            ->paginate();
+        return InvoiceResource::collection(Invoice::wherePaid(true)->paginate());
     }
 }

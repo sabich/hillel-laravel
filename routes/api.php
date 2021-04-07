@@ -27,12 +27,12 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'user'], function () {
 Route::group(['namespace' => 'Api'], function () {
     Route::group(['prefix' => 'partners'], function () {
         Route::get('/', [PartnerController::class, 'index']);
+        Route::get('/sum-orders', [PartnerController::class, 'sumOrders']);
         Route::get('/duplicated', [PartnerController::class, 'duplicated']);
         Route::get('/{partner}/orders', [PartnerController::class, 'orders']);
     });
     Route::group(['prefix' => 'products'], function () {
         Route::get('/', [ProductController::class, 'index']);
-        Route::get('/sum-order', [ProductController::class, 'sumOrders']);
     });
     Route::group(['prefix' => 'orders'], function () {
         Route::get('/', [OrderController::class, 'index']);
