@@ -36,6 +36,7 @@ Route::group(['namespace' => 'Api'], function () {
     });
     Route::group(['prefix' => 'orders'], function () {
         Route::get('/', [OrderController::class, 'index']);
+        Route::post('/paid/{order}', [OrderController::class, 'paid']);
     });
     Route::group(['prefix' => 'invoices'], function () {
         Route::get('/', [InvoiceController::class, 'index']);
