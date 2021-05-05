@@ -4,9 +4,27 @@ namespace App\Http\Resources;
 
 use App\Models\Product;
 use Illuminate\Http\Resources\Json\JsonResource;
-
+/**
+ * @OA\Schema(
+ *     title="ProductResource",
+ *     description="Project resource",
+ *     @OA\Xml(
+ *         name="ProductResource"
+ *     )
+ * )
+ */
 class ProductResource extends JsonResource
 {
+    /**
+     * @OA\Property(
+     *     title="Data",
+     *     description="Data wrapper"
+     * )
+     *
+     * @var \App\Models\Product[]
+     */
+    private $data;
+
     /** @var Product */
     public $resource;
     /**

@@ -10,6 +10,13 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 /**
  * App\Models\Partner
  *
+ * @OA\Schema(
+ *     title="Partner",
+ *     description="Partner model",
+ *     @OA\Xml(
+ *         name="Partner"
+ *     )
+ * )
  * @property int $id
  * @property string $name
  * @property string $country
@@ -34,9 +41,105 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
  * @method static \Illuminate\Database\Eloquent\Builder|Partner whereUpdatedAt($value)
  * @mixin \Eloquent
  */
+
 class Partner extends Model
 {
     use HasFactory;
+
+    /**
+     * @OA\Property(
+     *     title="ID",
+     *     description="ID",
+     *     format="int64",
+     *     example=1
+     * )
+     *
+     * @var integer
+     */
+    public int $id;
+    /**
+     * @OA\Property(
+     *      title="Name",
+     *      description="Name of the new partner",
+     *      example="partner"
+     * )
+     *
+     * @var string
+     */
+    public string $name;
+    /**
+     * @OA\Property(
+     *      title="Country",
+     *      description="Country",
+     *      example="Ukraine"
+     * )
+     *
+     * @var string
+     */
+    public string $country;
+    /**
+     * @OA\Property(
+     *      title="City",
+     *      description="City",
+     *      example="Dnipro"
+     * )
+     *
+     * @var string
+     */
+    public string $city;
+    /**
+     * @OA\Property(
+     *      title="Address",
+     *      description="Address",
+     *      example="Street 1"
+     * )
+     *
+     * @var string
+     */
+    public string $address;
+    /**
+     * @OA\Property(
+     *     title="Products",
+     *     description="Products"
+     * )
+     *
+     * @var \App\Models\Product[]
+     */
+    private $products;
+    /**
+     * @OA\Property(
+     *     title="Orders",
+     *     description="Product order's model"
+     * )
+     *
+     * @var \App\Models\Order[]
+     */
+    private $orders;
+    /**
+     * @OA\Property(
+     *     title="Created at",
+     *     description="Created at",
+     *     example="2020-01-27 17:50:45",
+     *     format="datetime",
+     *     type="string"
+     * )
+     *
+     * @var \DateTime
+     */
+    private $created_at;
+
+    /**
+     * @OA\Property(
+     *     title="Updated at",
+     *     description="Updated at",
+     *     example="2020-01-27 17:50:45",
+     *     format="datetime",
+     *     type="string"
+     * )
+     *
+     * @var \DateTime
+     */
+    private $updated_at;
 
     /**
      * The attributes that are mass assignable.

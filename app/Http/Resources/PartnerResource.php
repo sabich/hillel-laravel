@@ -5,8 +5,28 @@ namespace App\Http\Resources;
 use App\Models\Partner;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @OA\Schema(
+ *     title="PartnerResource",
+ *     description="Partner resource",
+ *     @OA\Xml(
+ *         name="PartnerResource"
+ *     )
+ * )
+ */
+
 class PartnerResource extends JsonResource
 {
+    /**
+     * @OA\Property(
+     *     title="Data",
+     *     description="Data wrapper"
+     * )
+     *
+     * @var \App\Models\Partner[]
+     */
+    private $data;
+
     /** @var Partner */
     public $resource;
 
