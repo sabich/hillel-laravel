@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\InvoiceController;
+use App\Http\Controllers\Api\JsonToXmlController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\PartnerController;
 use App\Http\Controllers\Api\ProductController;
@@ -42,4 +43,5 @@ Route::group(['namespace' => 'Api'], function () {
         Route::get('/', [InvoiceController::class, 'index']);
         Route::get('/paid', [InvoiceController::class, 'paid']);
     });
+    Route::get('json-to-xml', [JsonToXmlController::class, 'index']);
 });
